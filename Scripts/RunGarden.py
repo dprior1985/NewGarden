@@ -81,13 +81,12 @@ def decide():
 	waterlogic = -10;
 	TimeToWater = -1;
 
-	
+	print "start 1"
 	try:
 		cursor.execute("select 1 as Note from Schedule where  minute(now()) <= 15 and hour(now()) in ( select Time from Schedule ) limit 1;")
-	        for row in cursor.fetchall():
-       		        TimeToWater = (row[0])
+	    for row in cursor.fetchall():
+			TimeToWater = (row[0])
 
-		
 
 	except Exception ,e:
 		print "failure with schedule run : "+ str(e)
@@ -101,11 +100,11 @@ def decide():
 
 
 		x=Decimal(5)
-		
-		x1=[]
-		cursor.execute("select MAX(cast(Data as decimal(16,2))) from SenorLog where SensorName = 'temp sensor 2' and subtime(now(), '24:00:00') <= DateNow ; " )
-			for row in cursor.fetchall():
-				x = (row[0])
+	
+	print "Start 2"
+	cursor.execute("select MAX(cast(Data as decimal(16,2))) from SenorLog where SensorName = 'temp sensor 2' and subtime(now(), '24:00:00') <= DateNow ; " )
+	for row in cursor.fetchall():
+		x = (row[0])
 		
 		
 		waterlogic = 1;
