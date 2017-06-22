@@ -106,7 +106,7 @@ def decide():
 		cursor.execute("select MAX(cast(Data as decimal(16,2))) from SenorLog where SensorName = 'temp sensor 2' and subtime(now(), '24:00:00') <= DateNow ; " )
 		for row in cursor.fetchall():
 
-		x = (row[0])
+			x = (row[0])
 		
 		
 		waterlogic = 1;
