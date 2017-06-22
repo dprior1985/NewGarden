@@ -2,8 +2,6 @@
 # 01/12/2015 - danny prior
 # this script will allow for a automated temp sensor gathering and reporting
 
-
-import urllib2
 import RPi.GPIO as GPIO
 import time
 import MySQLdb
