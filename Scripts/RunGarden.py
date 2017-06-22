@@ -11,6 +11,7 @@ import MySQLdb
 import datetime
 import os
 import sys
+from decimal import Decimal
 
 import openrelay
 		
@@ -36,29 +37,6 @@ def main():
 		
 	global Water;
 	global SleepTime;
-
-	try:
-	   # Execute the SQL command
-   		cursor.execute("update ControlLog set Active =0 where Active = 1")
-	   # Commit your changes in the database
-		db.commit()
-	except:
-	   	db.rollback()
-		
-	print "Runnumber classmethod"
-	print(datetime.datetime.now())
-	RunNumber()
-	try:
-	   # Execute the SQL command
-	   	print "SQL3 exec"
-		print(datetime.datetime.now())
-  		cursor.execute(sql3)
-	   # Commit your changes in the database
-		db.commit()
-	except:
-	   	db.rollback()
-	print "decide classmethod"
-	print(datetime.datetime.now())
 
 	decide()
 	
@@ -135,8 +113,6 @@ def decide():
 	   	db.rollback()		
 
         if (TimeToWater <= -1):
-               #Default to water
-                sq53 =  "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;update RunNumber set Water = -10 where  RunnumberId in (select RunNumberId from ControlLog where RunNumberId = %s );SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;" %  (int(RunNumber))
 
                 try:
                    # Execute the SQL command
@@ -151,8 +127,28 @@ def decide():
 		
 
 	if (TimeToWater >= 1): 		
-		#Default to water
-		sq53 =  "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;update RunNumber set Water = 1 where  RunnumberId in (select RunNumberId from ControlLog where RunNumberId = %s );SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;" %  (int(RunNumber))
+
+
+		x=Decimal(5)
+		
+		x1=[]
+		cursor.execute("select MAX(cast(Data as decimal(16,2))) from SenorLog where SensorName = 'temp sensor 2' and subtime(now(), '24:00:00') <= DateNow ; " )
+		for row in cursor.fetchall():
+
+		x = (row[1])
+		x1.append(x)
+
+
+		
+		
+		
+		
+		
+		
+		
+
+	#Default to water
+#		sq53 =  "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;update RunNumber set Water = 1 where  RunnumberId in (select RunNumberId from ControlLog where RunNumberId = %s );SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;" %  (int(RunNumber))
 		
 		try:
 		   # Execute the SQL command
@@ -165,7 +161,7 @@ def decide():
 			db.rollback()
 
 	#if temp < 5 then dont water
-		sq53 =  "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;update RunNumber set Water = -1 where Water >= 0 and  RunnumberId in ( select RunNumberId from ControlLog where cast(SaveData as decimal(16,2)) < 5 and Active = 1 and ActionName = 'Weather API' and LogDescription = 'Temp C' ) and RunNumberId = %s;SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ ;" %  (int(RunNumber))
+		#sq53 =  "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;update RunNumber set Water = -1 where Water >= 0 and  RunnumberId in ( select RunNumberId from ControlLog where cast(SaveData as decimal(16,2)) < 5 and ActionName = 'temp sensor 2' and LogDescription = 'Temp C' ) and RunNumberId = %s;SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ ;" 
 		
 		try:
 		   # Execute the SQL command
@@ -183,7 +179,7 @@ def decide():
 
 
 	#if temp >= 5 < 12 then water
-		sq53 =  "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;update RunNumber set Water = 4 where Water <= 1 and  RunnumberId in ( select RunNumberId from ControlLog where cast(SaveData as decimal(16,2)) >=5 and cast(SaveData as decimal(16,2)) < 12 and Active = 1 and ActionName = 'Weather API' and LogDescription = 'Temp C' ) and RunNumberId = %s ;SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;" %  (int(RunNumber))
+#		sq53 =  "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;update RunNumber set Water = 4 where Water <= 1 and  RunnumberId in ( select RunNumberId from ControlLog where cast(SaveData as decimal(16,2)) >=5 and cast(SaveData as decimal(16,2)) < 12 and Active = 1 and ActionName = 'temp sensor 2' and LogDescription = 'Temp C' ) and RunNumberId = %s ;SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;" %  (int(RunNumber))
 		
 		try:
 		   # Execute the SQL command
@@ -199,7 +195,7 @@ def decide():
 			
 			
 	#if temp >= 12 < 16 then water
-		sq53 =  "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;update RunNumber set Water = 4 where Water <= 1 and  RunnumberId in (select RunNumberId from ControlLog where cast(SaveData as decimal(16,2)) >=12 and cast(SaveData as decimal(16,2)) < 16  and Active = 1 and ActionName = 'Weather API' and LogDescription = 'Temp C' ) and RunNumberId = %s ;SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;" %  (int(RunNumber))
+#		sq53 =  "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;update RunNumber set Water = 4 where Water <= 1 and  RunnumberId in (select RunNumberId from ControlLog where cast(SaveData as decimal(16,2)) >=12 and cast(SaveData as decimal(16,2)) < 16  and Active = 1 and ActionName = 'temp sensor 2' and LogDescription = 'Temp C' ) and RunNumberId = %s ;SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;" %  (int(RunNumber))
 		
 		try:
 		   # Execute the SQL command
@@ -214,7 +210,7 @@ def decide():
 
 
 	#if temp >= 16  < 20 then water
-		sq53 =  "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;update RunNumber set Water = 5 where Water <= 1 and  RunnumberId in (select RunNumberId from ControlLog where cast(SaveData as decimal(16,2)) >=16 and cast(SaveData as decimal(16,2)) < 20 and Active = 1 and ActionName = 'Weather API' and LogDescription = 'Temp C' ) and RunNumberId = %s ;SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;" %  (int(RunNumber))
+#		sq53 =  "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;update RunNumber set Water = 5 where Water <= 1 and  RunnumberId in (select RunNumberId from ControlLog where cast(SaveData as decimal(16,2)) >=16 and cast(SaveData as decimal(16,2)) < 20 and Active = 1 and ActionName = 'temp sensor 2' and LogDescription = 'Temp C' ) and RunNumberId = %s ;SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;" %  (int(RunNumber))
 		
 		try:
 		   # Execute the SQL command
@@ -230,7 +226,7 @@ def decide():
 
 			
 	#if temp >= 20  then water
-		sq53 =  "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;	update RunNumber set Water = 6 where Water <= 1 and  RunnumberId in (select RunNumberId from ControlLog where cast(SaveData as decimal(16,2)) >=20 and Active = 1 and ActionName = 'Weather API' and LogDescription = 'Temp C' ) and RunNumberId = %s ;  (int(RunNumber));SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;" %
+#		sq53 =  "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;	update RunNumber set Water = 6 where Water <= 1 and  RunnumberId in (select RunNumberId from ControlLog where cast(SaveData as decimal(16,2)) >=20 and Active = 1 and ActionName = 'temp sensor 2' and LogDescription = 'Temp C' ) and RunNumberId = %s ;  (int(RunNumber));SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;" %
 		try:
 		   # Execute the SQL command
 			cursor.execute(sq53)
