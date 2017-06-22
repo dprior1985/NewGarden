@@ -83,7 +83,7 @@ def decide():
 
 	
 	try:
-		cursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED ;select 1 as Note from Schedule where  minute(now()) <= 15 and hour(now()) in ( select Time from Schedule ) limit 1;SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ")
+		cursor.execute("select 1 as Note from Schedule where  minute(now()) <= 15 and hour(now()) in ( select Time from Schedule ) limit 1;")
 	        for row in cursor.fetchall():
        		        TimeToWater = (row[0])
 
@@ -104,9 +104,8 @@ def decide():
 		
 		x1=[]
 		cursor.execute("select MAX(cast(Data as decimal(16,2))) from SenorLog where SensorName = 'temp sensor 2' and subtime(now(), '24:00:00') <= DateNow ; " )
-		for row in cursor.fetchall():
-
-			x = (row[0])
+			for row in cursor.fetchall():
+				x = (row[0])
 		
 		
 		waterlogic = 1;
