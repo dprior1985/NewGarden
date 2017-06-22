@@ -110,23 +110,23 @@ def decide():
 		
 		
 		waterlogic = 1;
-		if (x < 5)
+		if (x < 5):
 			waterlogic = -1;				
 		
-		if (x >= 5 and x < 12)
+		if (x >= 5 and x < 12):
 			waterlogic = 3;				
 
-		if (x >= 12 and x <  16)
+		if (x >= 12 and x <  16):
 			waterlogic = 4;				
 		
 		
-		if (x >= 16 and x <  20)
+		if (x >= 16 and x <  20):
 			waterlogic = 5;				
 		
-		if (x >= 20 and x <  25)
+		if (x >= 20 and x <  25):
 			waterlogic = 6;				
 		
-		if (x >= 25)
+		if (x >= 25):
 			waterlogic = 7;				
 	
 	return waterlogic
