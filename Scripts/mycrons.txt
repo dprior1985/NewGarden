@@ -23,9 +23,9 @@
 #  m h  dom mon dow   command
 
 20 0 * * * sh /home/pi/Desktop/admin/Autopull.sh >> /home/pi/Desktop/Logs/AutoPull.log 2>&1
-* * * * * python /home/pi/Desktop/NewGarden/scripts/RunSenor.py >> /home/pi/Desktop/Logs/TempSensors.log 2>&1
-0,30 * * * * sh /home/pi/Desktop/NewGarden/scripts/Senors.sh >> /home/pi/Desktop/Logs/Senors.log 2>&1
-30 0 * * * sh /home/pi/Desktop/NewGarden/scripts/InstallCrontabs.sh >> /home/pi/Desktop/Logs/InstallCrontabs.log 2>&1
+* * * * * python /home/pi/Desktop/NewGarden/Scripts/RunSenor.py >> /home/pi/Desktop/Logs/TempSensors.log 2>&1
+0,30 * * * * sh /home/pi/Desktop/NewGarden/Scripts/Senors.sh >> /home/pi/Desktop/Logs/Senors.log 2>&1
+30 0 * * * sh /home/pi/Desktop/NewGarden/Scripts/InstallCrontabs.sh >> /home/pi/Desktop/Logs/InstallCrontabs.log 2>&1
 25 * * * * python /home/pi/Desktop/admin/Wifi.py >> /home/pi/Desktop/admin/Wifi.log 2>&1
-@reboot python /home/pi/Desktop/NewGarden/scripts/closerelay.py >> /home/pi/Desktop/GardenAutomation/modules/closerelay.log 2>&1
+@reboot python /home/pi/Desktop/NewGarden/Scripts/closerelay.py >> /home/pi/Desktop/GardenAutomation/modules/closerelay.log 2>&1
 10 * * * *  python /home/pi/SillyTweeter/SillyTweeter.py 'temp' '' 
