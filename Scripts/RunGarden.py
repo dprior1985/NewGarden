@@ -20,7 +20,7 @@ import openrelay
 db = MySQLdb.connect("localhost","danny","danny123","NEWGARDEN" )
 # prepare a cursor object using cursor() method
 cursor = db.cursor()
-Water = 0;
+#Water = 0;
 
 #GPIO PINS SETUP
 GPIO.setmode(GPIO.BOARD)
@@ -30,6 +30,9 @@ def main():
 	global SleepTime;
 	
 	Water=decide()
+
+	print "Water 111"
+	print Water
 		
 	if (Water >= 1):
 		print "openrelay classmethod"
@@ -63,7 +66,8 @@ def main():
 			#sleep(SleepTime)
 			#openrelay.Run(2)
 
-
+	print "Water"
+	print Water
 	if (Water <= 0):
 		print('Not Active')
 		print(datetime.datetime.now())
@@ -79,9 +83,9 @@ def main():
 def decide():
 
 	waterlogic = -10;
-	TimeToWater = -1;
+	TimeToWater = -111;
 
-	print "start 1"
+#	print "start 1"
 	try:
 		cursor.execute("select 1 as Note from Schedule where  minute(now()) <= 50 and hour(now()) in ( select Time from Schedule ) limit 1;")
 		for row in cursor.fetchall():
@@ -92,6 +96,9 @@ def decide():
 		print "failure with schedule run : "+ str(e)
 	   	db.rollback()		
 
+	print "Time to water"
+	print TimeToWater
+
 	if (TimeToWater <= -1):
 		waterlogic = -10;		
 
@@ -101,15 +108,15 @@ def decide():
 
 		x=Decimal(5)
 	
-	print "Start 2"
+#	print "Start 2"
 	cursor.execute("select MAX(cast(Data as decimal(16,2))) from SenorLog where SensorName = 'temp sensor 2' and subtime(now(), '24:00:00') <= DateNow ; " )
 	for row in cursor.fetchall():
 		x = (row[0])
+			
 		
-		
-		waterlogic = 1;
+#		waterlogic = 1;
 		if (x < 5):
-			waterlogic = -1;				
+			waterlogic = -12;				
 		
 		if (x >= 5 and x < 12):
 			waterlogic = 3;				
@@ -126,7 +133,8 @@ def decide():
 		
 		if (x >= 25):
 			waterlogic = 7;				
-	
+	print "water logic"
+	print waterlogic	
 	return waterlogic
 
 if __name__ == '__main__':
